@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -8,7 +14,7 @@ import {
 } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-form',
@@ -20,10 +26,12 @@ export class ProductFormComponent {
   productForm!: FormGroup;
   isEditable: boolean = false;
   @Input() productId: number | null = null;
+  @Output() cancel = new EventEmitter<void>();
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.productForm = this.fb.group({
       title: ['', Validators.required],
@@ -59,6 +67,7 @@ export class ProductFormComponent {
             next: () => {
               alert('Product updated successfully!');
               this.resetForm();
+              this.cancel.emit();
             },
             error: (err) => {
               console.error('Error updating product:', err);
@@ -69,6 +78,7 @@ export class ProductFormComponent {
           next: () => {
             alert('Product created successfully!');
             this.resetForm();
+            this.cancel.emit();
           },
           error: (err) => {
             console.error('Error creating product:', err);
@@ -78,6 +88,10 @@ export class ProductFormComponent {
     } else {
       alert('Please fill in all required fields.');
     }
+  }
+  onCancel() {
+    this.cancel.emit();
+    this.router.navigate(['/products']);
   }
   resetForm(): void {
     this.productForm.reset();

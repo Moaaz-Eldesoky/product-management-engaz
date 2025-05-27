@@ -1,25 +1,49 @@
-<div class="container mt-4" *ngIf="product">
-  <h2><i class="fas fa-info-circle"></i> Product Details</h2>
-  <ul class="list-group mt-3">
-    <li class="list-group-item">
-      <strong><i class="fas fa-hashtag"></i> ID:</strong> {{ product.id }}
-    </li>
-    <li class="list-group-item">
-      <strong><i class="fas fa-tag"></i> Name:</strong> {{ product.title }}
-    </li>
-    <li class="list-group-item">
-      <strong><i class="fas fa-dollar-sign"></i> Price:</strong>
-      {{ product.price | currency }}
-    </li>
-    <li class="list-group-item">
-      <strong><i class="fas fa-align-left"></i> Description:</strong>
-      {{ product.description }}
-    </li>
-  </ul>
-  <a [routerLink]="['/products']" class="btn btn-secondary mt-3">
-    <i class="fas fa-arrow-left"></i> Back to List
-  </a>
+<div class="container mt-5" *ngIf="product">
+  <div class="card shadow-lg border-0">
+    <div class="row g-0">
+      <div class="col-md-7">
+        <div class="card-body">
+          <h2 class="card-title mb-4 text-primary">
+            <i class="fas fa-info-circle"></i> Product Details
+          </h2>
+          <dl class="row">
+            <dt class="col-sm-4"><i class="fas fa-hashtag"></i> ID:</dt>
+            <dd class="col-sm-8">{{ product.id }}</dd>
+
+            <dt class="col-sm-4"><i class="fas fa-tag"></i> Name:</dt>
+            <dd class="col-sm-8">{{ product.title }}</dd>
+
+            <dt class="col-sm-4"><i class="fas fa-dollar-sign"></i> Price:</dt>
+            <dd class="col-sm-8">{{ product.price | currency }}</dd>
+
+            <dt class="col-sm-4">
+              <i class="fas fa-align-left"></i> Description:
+            </dt>
+            <dd class="col-sm-8">{{ product.description }}</dd>
+          </dl>
+          <div class="mt-4">
+            <a [routerLink]="['/products']" class="btn btn-outline-secondary">
+              <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-5 d-flex align-items-center justify-content-center bg-light rounded-start"
+      >
+        <img
+          [src]="product.image"
+          alt="Product Image"
+          class="img-fluid rounded shadow-sm p-3"
+          style="max-height: 350px; object-fit: contain"
+          *ngIf="product.image"
+        />
+      </div>
+    </div>
+  </div>
 </div>
-<div class="container mt-4" *ngIf="!product">
-  <p class="text-center">Loading product details...</p>
+<div class="container mt-5" *ngIf="!product">
+  <div class="alert alert-info text-center shadow-sm">
+    <i class="fas fa-spinner fa-spin"></i> Loading product details...
+  </div>
 </div>

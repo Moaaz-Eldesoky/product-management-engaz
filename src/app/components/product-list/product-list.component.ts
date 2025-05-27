@@ -34,7 +34,7 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe({
       next: (res: Product[]) => {
         this.allProducts = res;
-        this.products = [...res]; // clone to avoid reference issue
+        this.products = [...res];
       },
       error: (err) => {
         console.error('Error fetching products:', err);
